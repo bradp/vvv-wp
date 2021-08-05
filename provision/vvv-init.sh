@@ -36,7 +36,7 @@ if [[ ! -f "index.php" ]]; then
   noroot wp config set WP_ENVIRONMENT_TYPE 'development' --raw
   noroot wp config set WP_SCRIPT_DEBUG  true --raw
   noroot wp config set WP_CONTENT_DIR "dirname( __FILE__ ) . '/content'" --raw
-  noroot wp config set WP_CONTENT_URL "https://' . \$_SERVER['HTTP_HOST'] . '/content'" --raw
+  noroot wp config set WP_CONTENT_URL "'https://' . \$_SERVER['HTTP_HOST'] . '/content'" --raw
 
   noroot wp core install --url="${VVV_SITE_NAME}.test" --title="${VVV_SITE_NAME}" --admin_name="admin" --admin_email="admin@example.com" --admin_password="password"
 
