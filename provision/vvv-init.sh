@@ -33,7 +33,7 @@ if [[ ! -f "index.php" ]]; then
   noroot wp config set WP_DEBUG_LOG true --raw
   noroot wp config set WP_DEBUG true --raw
   noroot wp config set WP_DISABLE_FATAL_ERROR_HANDLER true --raw
-  noroot wp config set WP_ENVIRONMENT_TYPE 'development' --raw
+  noroot wp config set WP_ENVIRONMENT_TYPE "'development'" --raw
   noroot wp config set WP_SCRIPT_DEBUG  true --raw
   noroot wp config set WP_CONTENT_DIR "dirname( __FILE__ ) . '/content'" --raw
   noroot wp config set WP_CONTENT_URL "'https://' . \$_SERVER['HTTP_HOST'] . '/content'" --raw
