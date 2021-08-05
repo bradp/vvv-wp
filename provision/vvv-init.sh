@@ -54,7 +54,7 @@ if [[ ! -f "index.php" ]]; then
 
   echo "<?php" > index.php
   echo "define( 'WP_USE_THEMES', true );" >> index.php
-  echo "require_once wp/wp-blog-header.php';" >> index.php
+  echo "require_once 'wp/wp-blog-header.php';" >> index.php
 
 fi
 
