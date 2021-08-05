@@ -35,7 +35,6 @@ if [[ ! -f "index.php" ]]; then
   noroot wp config set WP_DISABLE_FATAL_ERROR_HANDLER true --raw
   noroot wp config set WP_ENVIRONMENT_TYPE 'development' --raw
   noroot wp config set WP_SCRIPT_DEBUG  true --raw
-  noroot wp config set ABSPATH "dirname( __FILE__ ) . '/wp/'" --raw
   noroot wp config set WP_CONTENT_DIR "dirname( __FILE__ ) . '/content'" --raw
   noroot wp config set WP_CONTENT_URL "https://' . \$_SERVER['HTTP_HOST'] . '/content'" --raw
 
@@ -51,7 +50,7 @@ if [[ ! -f "index.php" ]]; then
 
   cd ../
 
-  mv wp/content content
+  noroot mv wp/wp-content content
 
   echo "<?php" > index.php
   echo "define( 'WP_USE_THEMES', true );" >> index.php
