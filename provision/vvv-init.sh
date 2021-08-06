@@ -7,10 +7,10 @@ run() {
 }
 
 runwp() {
-  if [[ $(which wp) ]]; then
-    run wp "$@";
-  else
+  if [[ -f "/srv/www/phpcs/vendor/bin/wp" ]]; then
     run /srv/www/phpcs/vendor/bin/wp "$@";
+  else
+    run wp "$@";
   fi
 }
 
