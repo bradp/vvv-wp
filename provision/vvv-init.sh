@@ -27,21 +27,20 @@ if [[ ! -f "index.php" ]]; then
   noroot wp core download --locale="en_US" --version="latest"
 
 noroot wp core config --dbname="${DB_NAME}" --dbuser=wp --dbpass=wp --extra-php <<PHP
-    define( 'AUTOMATIC_UPDATER_DISABLED', true );
-    define( 'DISABLE_WP_CRON', true );
-    define( 'WP_DEBUG', true );
-    define( 'WP_SCRIPT_DEBUG', true );
-    define( 'WP_DEBUG_LOG', true );
-    define( 'WP_DEBUG_DISPLAY', false );
-    define( 'WP_DISABLE_FATAL_ERROR_HANDLER', true );
-    define( 'WP_ENVIRONMENT_TYPE', 'development' );
-    define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/content' );
-    define( 'WP_CONTENT_URL', 'https://' . \$_SERVER['HTTP_HOST'] . '/content' );
+define( 'AUTOMATIC_UPDATER_DISABLED', true );
+define( 'DISABLE_WP_CRON', true );
+define( 'WP_DEBUG', true );
+define( 'WP_SCRIPT_DEBUG', true );
+define( 'WP_DEBUG_LOG', true );
+define( 'WP_DEBUG_DISPLAY', false );
+define( 'WP_DISABLE_FATAL_ERROR_HANDLER', true );
+define( 'WP_ENVIRONMENT_TYPE', 'development' );
+define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/content' );
+define( 'WP_CONTENT_URL', 'https://' . \$_SERVER['HTTP_HOST'] . '/content' );
 
-    if ( ! defined( 'ABSPATH' ) ) {
-      define( 'ABSPATH', dirname( __FILE__ ) . '/wp/' );
-    }
- }
+if ( ! defined( 'ABSPATH' ) ) {
+  define( 'ABSPATH', dirname( __FILE__ ) . '/wp/' );
+}
 PHP
 
 
@@ -76,5 +75,7 @@ if ! $(noroot wp core is-installed ); then
     noroot wp db import "/srv/database/backups/${VVV_SITE_NAME}.sql"
   fi
 fi
+
+rm -rf .git
 
 echo " ✓ ${VVV_SITE_NAME}"
