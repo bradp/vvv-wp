@@ -36,6 +36,11 @@ define( 'WP_DEBUG_DISPLAY', false );
 define( 'WP_DISABLE_FATAL_ERROR_HANDLER', true );
 define( 'WP_ENVIRONMENT_TYPE', 'development' );
 define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/content' );
+
+if ( ! isset( \$_SERVER['HTTP_HOST'] ) ) {
+  \$_SERVER['HTTP_HOST'] = '${VVV_SITE_NAME}.test';
+}
+
 define( 'WP_CONTENT_URL', 'http://' . \$_SERVER['HTTP_HOST'] . '/content' );
 
 if ( ! defined( 'WP_INSTALLING' ) ) {
@@ -53,11 +58,11 @@ PHP
   noroot wp plugin delete akismet
   noroot wp plugin delete hello
   noroot wp plugin install airplane-mode
-  noroot wp plugin install query-monitor --activate
-  noroot wp plugin install rewrite-rules-inspector --activate
-  noroot wp plugin install user-switching --activate
-  noroot wp plugin install wp-crontrol --activate
-  noroot wp theme install twentytwentyone --activate
+  noroot wp plugin install query-monitor
+  noroot wp plugin install rewrite-rules-inspector
+  noroot wp plugin install user-switching
+  noroot wp plugin install wp-crontrol
+  noroot wp theme install twentytwentyone
   cd ../
 
   noroot mv wp/content content
