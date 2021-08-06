@@ -1,7 +1,14 @@
 #!/usr/bin/env bash
-# Provision WordPress Stable
 
 set -eo pipefail
+
+run() {
+  sudo -EH -u "vagrant" "$@";
+}
+
+if [[ ! $(which wp) ]]; then
+  alias wp="/srv/www/phpcs/vendor/bin/wp"
+fi
 
 echo " → ${VVV_SITE_NAME}"
 cd "${VVV_PATH_TO_SITE}"
@@ -14,7 +21,7 @@ mysql -u root --password=root -e "CREATE DATABASE IF NOT EXISTS \`wordpress_unit
 mysql -u root --password=root -e "GRANT ALL PRIVILEGES ON \`${DB_NAME}\`.* TO wp@localhost IDENTIFIED BY 'wp';"
 
 if [[ -f "${VVV_PATH_TO_SITE}/provision/vvv-nginx-default.conf" ]]; then
-  noroot cp -f "${VVV_PATH_TO_SITE}/provision/vvv-nginx-default.conf" "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf"
+  run cp -f "${VVV_PATH_TO_SITE}/provision/vvv-nginx-default.conf" "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf"
 fi
 
 if [[ -d ".git" ]]; then
@@ -25,17 +32,17 @@ if [[ -f "README.md" ]]; then
   rm README.md
 fi
 
-noroot mkdir -p "log"
-noroot touch "log/nginx-error.log"
-noroot touch "log/nginx-access.log"
+run mkdir -p "log"
+run touch "log/nginx-error.log"
+run touch "log/nginx-access.log"
 
 # Install and configure the latest stable version of WordPress
 if [[ ! -f "index.php" ]]; then
-  noroot mkdir -p "wp"
+  run mkdir -p "wp"
   cd "wp"
-  noroot wp core download --locale="en_US" --version="latest"
+  run wp core download --locale="en_US" --version="latest"
 
-noroot wp core config --dbname="${DB_NAME}" --dbuser=wp --dbpass=wp --extra-php <<PHP
+run wp core config --dbname="${DB_NAME}" --dbuser=wp --dbpass=wp --extra-php <<PHP
 define( 'AUTOMATIC_UPDATER_DISABLED', true );
 define( 'DISABLE_WP_CRON', true );
 define( 'WP_DEBUG', true );
@@ -62,35 +69,35 @@ if ( ! defined( 'ABSPATH' ) ) {
 PHP
 
 
-  noroot wp core install --url="${VVV_SITE_NAME}.test" --title="${VVV_SITE_NAME}" --admin_name="admin" --admin_email="admin@example.com" --admin_password="password"
+  run wp core install --url="${VVV_SITE_NAME}.test" --title="${VVV_SITE_NAME}" --admin_name="admin" --admin_email="admin@example.com" --admin_password="password"
 
-  noroot wp rewrite structure '/%postname%'
-  noroot wp rewrite flush
-  noroot wp plugin delete akismet
-  noroot wp plugin delete hello
-  noroot wp plugin install airplane-mode
-  noroot wp plugin install query-monitor
-  noroot wp plugin install rewrite-rules-inspector
-  noroot wp plugin install user-switching
-  noroot wp plugin install wp-crontrol
+  run wp rewrite structure '/%postname%'
+  run wp rewrite flush
+  run wp plugin delete akismet
+  run wp plugin delete hello
+  run wp plugin install airplane-mode
+  run wp plugin install query-monitor
+  run wp plugin install rewrite-rules-inspector
+  run wp plugin install user-switching
+  run wp plugin install wp-crontrol
 
-  noroot wp theme install twentynineteen
-  noroot wp theme install twentytwenty
-  noroot wp theme install twentytwentyone --activate
+  run wp theme install twentynineteen
+  run wp theme install twentytwenty
+  run wp theme install twentytwentyone --activate
 
   cd ../
 
-  noroot mv wp/content content
-  noroot mv wp/wp-config.php wp-config.php
+  run mv wp/content content
+  run mv wp/wp-config.php wp-config.php
 
   echo "<?php" > index.php
   echo "define( 'WP_USE_THEMES', true );" >> index.php
   echo "require_once( 'wp/wp-blog-header.php' );" >> index.php
 fi
 
-if ! $(noroot wp core is-installed ); then
+if ! $(run wp core is-installed ); then
   if [ -f "/srv/database/backups/${VVV_SITE_NAME}.sql" ]; then
-    noroot wp db import "/srv/database/backups/${VVV_SITE_NAME}.sql"
+    run wp db import "/srv/database/backups/${VVV_SITE_NAME}.sql"
   fi
 fi
 
