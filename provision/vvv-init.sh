@@ -36,8 +36,12 @@ define( 'WP_DEBUG_DISPLAY', false );
 define( 'WP_DISABLE_FATAL_ERROR_HANDLER', true );
 define( 'WP_ENVIRONMENT_TYPE', 'development' );
 define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/content' );
-define( 'WP_CONTENT_URL', 'https://' . \$_SERVER['HTTP_HOST'] . '/content' );
+define( 'WP_CONTENT_URL', 'http://' . \$_SERVER['HTTP_HOST'] . '/content' );
 
+if ( ! defined( 'WP_INSTALLING' ) ) {
+	define( 'WP_SITEURL', 'http://' . \$_SERVER['HTTP_HOST'] . '/wp');
+	define('WP_HOME', 'http://' . \$_SERVER['HTTP_HOST']);
+}
 if ( ! defined( 'ABSPATH' ) ) {
   define( 'ABSPATH', dirname( __FILE__ ) . '/wp/' );
 }
@@ -48,12 +52,12 @@ PHP
 
   noroot wp plugin delete akismet
   noroot wp plugin delete hello
-  noroot wp plugin install airplane-mode --activate
+  noroot wp plugin install airplane-mode
   noroot wp plugin install query-monitor --activate
   noroot wp plugin install rewrite-rules-inspector --activate
   noroot wp plugin install user-switching --activate
   noroot wp plugin install wp-crontrol --activate
-
+  noroot wp theme install twentytwentyone --activate
   cd ../
 
   noroot mv wp/content content
