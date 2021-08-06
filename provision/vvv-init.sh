@@ -57,6 +57,8 @@ PHP
 
   noroot wp core install --url="${VVV_SITE_NAME}.test" --title="${VVV_SITE_NAME}" --admin_name="admin" --admin_email="admin@example.com" --admin_password="password"
 
+  noroot wp rewrite structure '/%postname%'
+  noroot wp rewrite flush
   noroot wp plugin delete akismet
   noroot wp plugin delete hello
   noroot wp plugin install airplane-mode
@@ -74,7 +76,9 @@ PHP
   noroot mv wp/content content
   noroot mv wp/wp-config.php wp-config.php
 
-  echo "<?php define( 'WP_USE_THEMES', true ); require_once( 'wp/wp-blog-header.php' );" > index.ph
+  echo "<?php" > index.php
+  echo "define( 'WP_USE_THEMES', true );" >> index.php
+  echo "require_once( 'wp/wp-blog-header.php' );" >> index.php
 fi
 
 if ! $(noroot wp core is-installed ); then
