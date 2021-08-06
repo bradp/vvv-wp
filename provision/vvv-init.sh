@@ -6,9 +6,13 @@ run() {
   sudo -EH -u "vagrant" "$@";
 }
 
-if [[ ! $(which wp) ]]; then
-  alias wp="/srv/www/phpcs/vendor/bin/wp"
-fi
+runwp() {
+  if [[ $(which wp) ]]; then
+    run wp "$@";
+  else
+    run /srv/www/phpcs/vendor/bin/wp "$@";
+  fi
+}
 
 echo " → ${VVV_SITE_NAME}"
 cd "${VVV_PATH_TO_SITE}"
@@ -68,7 +72,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 PHP
 
-
   run wp core install --url="${VVV_SITE_NAME}.test" --title="${VVV_SITE_NAME}" --admin_name="admin" --admin_email="admin@example.com" --admin_password="password"
 
   run wp rewrite structure '/%postname%'
@@ -87,8 +90,13 @@ PHP
 
   cd ../
 
-  run mv wp/content content
-  run mv wp/wp-config.php wp-config.php
+  if [[ -d "wp/content" ]]; then
+    run mv wp/content content
+  fi
+
+  if [[ -f "wp/wp-config.php" ]]; then
+    run mv wp/wp-config.php wp-config.php
+  fi
 
   echo "<?php" > index.php
   echo "define( 'WP_USE_THEMES', true );" >> index.php
