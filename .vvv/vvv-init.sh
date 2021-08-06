@@ -94,6 +94,11 @@ PHP
     run mv wp/content content
   fi
 
+  if [[ -d "wp/wp-content" ]]; then
+    rm -rf wp/wp-content
+  fi
+
+
   if [[ -f "wp/wp-config.php" ]]; then
     run mv wp/wp-config.php wp-config.php
   fi
