@@ -40,8 +40,8 @@ run mkdir -p "log"
 run touch "log/nginx-error.log"
 run touch "log/nginx-access.log"
 
-# Install and configure the latest stable version of WordPress
-if [[ ! -f "index.php" ]]; then
+if [[ -f "index.php" ]]; then
+
   run mkdir -p "wp"
   cd "wp"
   run wp core download --locale="en_US" --version="latest"
@@ -103,14 +103,8 @@ PHP
     run mv wp/wp-config.php wp-config.php
   fi
 
-  echo "<?php" > index.php
-  echo "define( 'WP_USE_THEMES', true );" >> index.php
-  echo "require_once( 'wp/wp-blog-header.php' );" >> index.php
-fi
-
-if ! $(run wp core is-installed ); then
-  if [ -f "/srv/database/backups/${VVV_SITE_NAME}.sql" ]; then
-    run wp db import "/srv/database/backups/${VVV_SITE_NAME}.sql"
+  if [[ -f ".vvv/index.php" ]]; then
+    mv .vvv/index.php index.php
   fi
 fi
 
