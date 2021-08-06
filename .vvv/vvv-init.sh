@@ -40,7 +40,7 @@ run mkdir -p "log"
 run touch "log/nginx-error.log"
 run touch "log/nginx-access.log"
 
-if [[ -f "index.php" ]]; then
+if [[ ! -f "index.php" ]]; then
 
   run mkdir -p "wp"
   cd "wp"
