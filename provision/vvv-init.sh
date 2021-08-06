@@ -45,7 +45,7 @@ define( 'WP_CONTENT_URL', 'http://' . \$_SERVER['HTTP_HOST'] . '/content' );
 
 if ( ! defined( 'WP_INSTALLING' ) ) {
 	define( 'WP_SITEURL', 'http://' . \$_SERVER['HTTP_HOST'] . '/wp');
-	define('WP_HOME', 'http://' . \$_SERVER['HTTP_HOST']);
+	define( 'WP_HOME', 'http://' . \$_SERVER['HTTP_HOST'] );
 }
 if ( ! defined( 'ABSPATH' ) ) {
   define( 'ABSPATH', dirname( __FILE__ ) . '/wp/' );
