@@ -74,19 +74,18 @@ PHP
 
   run wp core install --url="${VVV_SITE_NAME}.test" --title="${VVV_SITE_NAME}" --admin_name="admin" --admin_email="admin@example.com" --admin_password="password"
 
-  run wp rewrite structure '/%postname%'
-  run wp rewrite flush
-  run wp plugin delete akismet
-  run wp plugin delete hello
   run wp plugin install airplane-mode
-  run wp plugin install query-monitor
-  run wp plugin install rewrite-rules-inspector
+  run wp plugin install query-monitor --activate
+  run wp plugin install rewrite-rules-inspector --activate
   run wp plugin install user-switching
-  run wp plugin install wp-crontrol
+  run wp plugin install wp-crontrol --activate
 
   run wp theme install twentynineteen
   run wp theme install twentytwenty
   run wp theme install twentytwentyone --activate
+
+  run wp rewrite structure '/%postname%'
+  run wp rewrite flush
 
   cd ../
 
