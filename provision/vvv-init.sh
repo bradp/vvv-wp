@@ -4,8 +4,10 @@
 set -eo pipefail
 
 echo " → ${VVV_SITE_NAME}"
-
 cd "${VVV_PATH_TO_SITE}"
+
+rm -rf .git
+rm README.md
 
 DB_NAME="${VVV_SITE_NAME}"
 DB_NAME=${DB_NAME//[\\\/\.\<\>\:\"\'\|\?\!\*]/}
@@ -62,29 +64,23 @@ PHP
   noroot wp plugin install rewrite-rules-inspector
   noroot wp plugin install user-switching
   noroot wp plugin install wp-crontrol
-  noroot wp theme install twentytwentyone
+
+  noroot wp theme install twentynineteen
+  noroot wp theme install twentytwenty
+  noroot wp theme install twentytwentyone --activate
+
   cd ../
 
   noroot mv wp/content content
   noroot mv wp/wp-config.php wp-config.php
 
-  echo "<?php" > index.php
-  echo "define( 'WP_USE_THEMES', true );" >> index.php
-  echo "require_once( 'wp/wp-blog-header.php' );" >> index.php
-
+  echo "<?php define( 'WP_USE_THEMES', true ); require_once( 'wp/wp-blog-header.php' );" > index.ph
 fi
 
 if ! $(noroot wp core is-installed ); then
   if [ -f "/srv/database/backups/${VVV_SITE_NAME}.sql" ]; then
-    # noroot wp config set DB_USER "wp"
-    # noroot wp config set DB_PASSWORD "wp"
-    # noroot wp config set DB_HOST "localhost"
-    # noroot wp config set DB_NAME "${DB_NAME}"
-    # noroot wp config set table_prefix "wp_"
     noroot wp db import "/srv/database/backups/${VVV_SITE_NAME}.sql"
   fi
 fi
-
-rm -rf .git
 
 echo " ✓ ${VVV_SITE_NAME}"
