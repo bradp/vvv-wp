@@ -36,6 +36,7 @@ if [[ ! -f "index.php" ]]; then
   noroot wp config set WP_DISABLE_FATAL_ERROR_HANDLER true --raw
   noroot wp config set WP_ENVIRONMENT_TYPE "'development'" --raw
   noroot wp config set WP_SCRIPT_DEBUG  true --raw
+  noroot wp config set WP_CONTENT_DIR "dirname( __FILE__ ) . '/content'" --raw
 
   noroot wp core install --url="${VVV_SITE_NAME}.test" --title="${VVV_SITE_NAME}" --admin_name="admin" --admin_email="admin@example.com" --admin_password="password"
 
@@ -47,12 +48,11 @@ if [[ ! -f "index.php" ]]; then
   noroot wp plugin install user-switching --activate
   noroot wp plugin install wp-crontrol --activate
 
-  noroot wp config set WP_CONTENT_DIR "dirname( __FILE__ ) . '/content'" --raw
   noroot wp config set WP_CONTENT_URL "'https://' . \$_SERVER['HTTP_HOST'] . '/content'" --raw
 
   cd ../
 
-  noroot mv wp/wp-content content
+  noroot mv wp/content content
 
   echo "<?php" > index.php
   echo "define( 'WP_USE_THEMES', true );" >> index.php
