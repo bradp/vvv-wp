@@ -6,15 +6,24 @@ set -eo pipefail
 echo " → ${VVV_SITE_NAME}"
 cd "${VVV_PATH_TO_SITE}"
 
-rm -rf .git
-rm README.md
-
 DB_NAME="${VVV_SITE_NAME}"
 DB_NAME=${DB_NAME//[\\\/\.\<\>\:\"\'\|\?\!\*]/}
 
 mysql -u root --password=root -e "CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\`"
 mysql -u root --password=root -e "CREATE DATABASE IF NOT EXISTS \`wordpress_unit_tests\`"
 mysql -u root --password=root -e "GRANT ALL PRIVILEGES ON \`${DB_NAME}\`.* TO wp@localhost IDENTIFIED BY 'wp';"
+
+if [[ -f "${VVV_PATH_TO_SITE}/provision/vvv-nginx-default.conf" ]]; then
+  noroot cp -f "${VVV_PATH_TO_SITE}/provision/vvv-nginx-default.conf" "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf"
+fi
+
+if [[ -d ".git" ]]; then
+  rm -rf .git
+fi
+
+if [[ -f "README.md" ]]; then
+  rm README.md
+fi
 
 noroot mkdir -p "log"
 noroot touch "log/nginx-error.log"
