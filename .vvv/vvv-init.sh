@@ -36,10 +36,7 @@ if [[ -f "README.md" ]]; then
   rm README.md
 fi
 
-run echo "" > content/nginx-error.log
-
 if [[ ! -f "index.php" ]]; then
-
   run mkdir -p "wp"
   cd "wp"
   run wp core download --locale="en_US" --version="latest"
