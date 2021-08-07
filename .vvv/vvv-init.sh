@@ -7,8 +7,8 @@ run() {
 }
 
 runwp() {
-  if [[ -f "/srv/provision/composerbin/vendor/bin/wp" ]]; then
-    run /srv/provision/composerbin/vendor/bin/wp "$@";
+  if [[ -f "/srv/provision/bin/vendor/bin/wp" ]]; then
+    run /srv/provision/bin/vendor/bin/wp "$@";
   else
     run wp "$@";
   fi
@@ -39,9 +39,9 @@ fi
 if [[ ! -f "index.php" ]]; then
   run mkdir -p "wp"
   cd "wp"
-  run wp core download --locale="en_US" --version="latest"
+  runwp core download --locale="en_US" --version="latest"
 
-run wp core config --dbname="${DB_NAME}" --dbuser=wp --dbpass=wp --extra-php <<PHP
+runwp core config --dbname="${DB_NAME}" --dbuser=wp --dbpass=wp --extra-php <<PHP
 define( 'AUTOMATIC_UPDATER_DISABLED', true );
 define( 'DISABLE_WP_CRON', true );
 define( 'WP_DEBUG', true );
@@ -67,20 +67,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 PHP
 
-  run wp core install --url="${VVV_SITE_NAME}.test" --title="${VVV_SITE_NAME}" --admin_name="admin" --admin_email="admin@example.com" --admin_password="password"
+  runwp core install --url="${VVV_SITE_NAME}.test" --title="${VVV_SITE_NAME}" --admin_name="admin" --admin_email="admin@example.com" --admin_password="password"
 
-  run wp plugin install airplane-mode
-  run wp plugin install query-monitor --activate
-  run wp plugin install rewrite-rules-inspector --activate
-  run wp plugin install user-switching
-  run wp plugin install wp-crontrol --activate
+  runwp plugin install airplane-mode
+  runwp plugin install query-monitor --activate
+  runwp plugin install rewrite-rules-inspector --activate
+  runwp plugin install user-switching
+  runwp plugin install wp-crontrol --activate
 
-  run wp theme install twentynineteen
-  run wp theme install twentytwenty
-  run wp theme install twentytwentyone --activate
+  runwp theme install twentynineteen
+  runwp theme install twentytwenty
+  runwp theme install twentytwentyone --activate
 
-  run wp rewrite structure '/%postname%'
-  run wp rewrite flush
+  runwp rewrite structure '/%postname%'
+  runwp rewrite flush
 
   cd ../
 
