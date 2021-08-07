@@ -7,8 +7,8 @@ run() {
 }
 
 runwp() {
-  if [[ -f "/srv/www/phpcs/vendor/bin/wp" ]]; then
-    run /srv/www/phpcs/vendor/bin/wp "$@";
+  if [[ -f "/srv/provision/composerbin/vendor/bin/wp" ]]; then
+    run /srv/provision/composerbin/vendor/bin/wp "$@";
   else
     run wp "$@";
   fi
