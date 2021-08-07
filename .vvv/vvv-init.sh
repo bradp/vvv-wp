@@ -36,9 +36,7 @@ if [[ -f "README.md" ]]; then
   rm README.md
 fi
 
-run mkdir -p "log"
-run touch "log/nginx-error.log"
-run touch "log/nginx-access.log"
+run echo "" > content/nginx-error.log
 
 if [[ ! -f "index.php" ]]; then
 
