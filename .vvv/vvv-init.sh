@@ -7,8 +7,8 @@ run() {
 }
 
 runwp() {
-  if [[ -f "/srv/provision/bin/vendor/bin/wp" ]]; then
-    run /srv/provision/bin/vendor/bin/wp "$@";
+  if [[ -f "/srv/provision/bin/bin/wp" ]]; then
+    run /srv/provision/bin/bin/wp "$@";
   else
     run wp "$@";
   fi
