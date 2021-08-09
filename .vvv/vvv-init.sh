@@ -99,6 +99,8 @@ PHP
 
   if [[ -f ".vvv/index.php" ]]; then
     mv .vvv/index.php index.php
+    
+    rm -rf .vvv
   fi
 fi
 
